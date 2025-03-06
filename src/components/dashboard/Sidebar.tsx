@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -19,6 +21,8 @@ import {
   LogOut,
   HelpCircle,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { logout } from "@/lib/auth";
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -74,6 +78,12 @@ const Sidebar = ({
   userAvatar = "",
   activeItem = "dashboard",
 }: SidebarProps) => {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    window.location.href = "/login";
+  };
   return (
     <div
       className={cn(
@@ -165,7 +175,12 @@ const Sidebar = ({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={handleLogout}
+                  >
                     <LogOut className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>

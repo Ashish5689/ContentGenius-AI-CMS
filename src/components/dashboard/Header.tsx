@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -22,6 +24,8 @@ import {
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { logout } from "@/lib/auth";
 
 interface HeaderProps {
   username?: string;
@@ -38,6 +42,12 @@ const Header = ({
   unreadNotifications = 3,
   unreadMessages = 2,
 }: HeaderProps) => {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    window.location.href = "/login";
+  };
   return (
     <header className="sticky top-0 z-30 flex h-20 w-full items-center justify-between border-b bg-background px-6 py-4">
       <div className="flex items-center gap-4">
@@ -125,7 +135,10 @@ const Header = ({
               <span>Settings</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
+            <DropdownMenuItem
+              className="text-destructive"
+              onClick={handleLogout}
+            >
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
             </DropdownMenuItem>
